@@ -1,4 +1,5 @@
 import DropZone from "@/components/Dropzone";
+import { pickRandomNames } from "@/utils/randomVisitorNames";
 import { clsx } from "clsx";
 import { Inter } from "next/font/google";
 import Image from "next/image";
@@ -15,9 +16,9 @@ export default function Home() {
           SGS x Mailchimp
         </h1>
         <div className="flex gap-4 items-center justify-center">
-          <p>Welcome Visitor</p>
+          <p>Welcome visitor</p>
           <Image
-            src="https://source.boringavatars.com/beam/120/Maria%20Mitchell?colors=264653,2a9d8f,e9c46a,f4a261,e76f51"
+            src={`https://source.boringavatars.com/beam/120/${pickRandomNames()}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
             alt="User image placeholder"
             width={24}
             height={24}
