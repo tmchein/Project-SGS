@@ -2,7 +2,6 @@ import DropZone from "@/components/Dropzone";
 import { pickRandomNames } from "@/utils/randomVisitorNames";
 import { clsx } from "clsx";
 import { Inter } from "next/font/google";
-import Image from "next/image";
 import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,11 +18,11 @@ export default function Home() {
         </h1>
         <div className="flex gap-4 items-center justify-center">
           <p>Welcome visitor</p>
-          <Image
+          <img
             src={`https://source.boringavatars.com/beam/120/${name}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
-            alt="User image placeholder"
-            width={24}
-            height={24}
+            alt="Visitor image"
+            style={{ width: "24px", height: "24px" }}
+            className="w-6 h-6"
           />
         </div>
       </header>
