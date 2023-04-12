@@ -1,7 +1,7 @@
 import React from "react";
 
 const DropZone = () => {
-  const fileSubmitInputRef = React.useRef<any>();
+  const fileSubmitInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e);
@@ -10,7 +10,7 @@ const DropZone = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    fileSubmitInputRef.current.click();
+    fileSubmitInputRef.current!.click();
   };
 
   return (
