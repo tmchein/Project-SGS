@@ -8,7 +8,7 @@ const nextConfig = {
         protocol: "https",
         hostname: "source.boringavatars.com",
         port: "",
-        pathname: "/**",
+        pathname: "/**/**/**",
       },
     ],
   },
