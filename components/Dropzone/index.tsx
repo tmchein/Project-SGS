@@ -2,6 +2,25 @@ import Papa from "papaparse";
 import React from "react";
 import { toast } from "sonner";
 
+export interface Contact {
+  "First name": string;
+  "Last/Organization/Group/Household name": string;
+  "System record ID": string;
+  "Date changed": string;
+  "Email Addresses\\Email address": string;
+  "Email Addresses\\Date changed": string;
+  "Todays Visitors Attribute\\Value": string;
+  "Todays Visitors Attribute\\Date changed": string;
+  "Addresses\\Address line 1": string;
+  "Addresses\\Address line 2": string;
+  "Addresses\\City": string;
+  "Addresses\\ZIP": string;
+  "Addresses\\State abbreviation": string;
+  "Addresses\\Country abbreviation": string;
+  "Phones\\Number": string;
+  "Phones\\Date changed": string;
+}
+
 const DropZone = () => {
   const fileSubmitInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -16,37 +35,33 @@ const DropZone = () => {
 
     const reader = new FileReader();
 
-    reader.onload = async function (e) {
+    reader.onloadend = async function (e) {
       const fileToText = e.target?.result;
-      console.log(String(fileToText));
-      const parsed = await new Promise((resolve, reject) => {
-        Papa.parse(fileToText!.toString(), {
+
+      const parsed = await new Promise<Contact[]>((resolve, reject) => {
+        Papa.parse<Contact>(fileToText!.toString(), {
           header: true,
           complete: (result) => resolve(result.data),
           error: reject,
         });
       });
       console.log(parsed);
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: JSON.stringify(parsed),
+      });
+
+      if (res.ok) {
+        // handle success
+        const data = res.json();
+        toast.success("File was uploaded successfully");
+      } else {
+        // handling errors
+        toast.error("There was an error uploading the file");
+      }
     };
 
     reader.readAsText(file);
-
-    // const formData = new FormData();
-    // formData.append("tmpCsvFile", file, file.name);
-
-    // const res = await fetch("/api/upload", {
-    //   method: "POST",
-    //   body: formData,
-    // });
-
-    // if (res.ok) {
-    //   // handle success
-    //   const data = res.json();
-    //   toast.success("File was uploaded successfully");
-    // } else {
-    //   // handling errors
-    //   toast.error("There was an error uploading the file");
-    // }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
