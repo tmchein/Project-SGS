@@ -1,3 +1,4 @@
+import { useContact } from "@/context/contacts/contactsContext";
 import Papa from "papaparse";
 import React from "react";
 import { toast } from "sonner";
@@ -22,6 +23,7 @@ export interface Contact {
 }
 
 const DropZone = () => {
+  const { contacts, setContacts } = useContact();
   const fileSubmitInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +55,8 @@ const DropZone = () => {
 
       if (res.ok) {
         // handle success
-        const data = res.json();
+        const data = await res.json();
+        setContacts(data.members);
         toast.success("File was uploaded successfully");
       } else {
         // handling errors

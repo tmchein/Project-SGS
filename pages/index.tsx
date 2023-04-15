@@ -1,14 +1,14 @@
 import DropZone from "@/components/Dropzone";
-import { pickRandomNames } from "@/utils/randomVisitorNames";
+import { useContact } from "@/context/contacts/contactsContext";
 import { clsx } from "clsx";
 import { Inter } from "next/font/google";
-import React from "react";
 import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const [name] = React.useState<string>(() => pickRandomNames());
+  const { contacts, setContacts } = useContact();
+
   return (
     <main>
       <header className="bg-slate-100 py-4 flex justify-between px-8">
@@ -30,6 +30,26 @@ export default function Home() {
       <Toaster />
       <section className="max-w-xl mx-auto mt-14">
         <DropZone />
+      </section>
+      <section className="w-full flex flex-col items-center justify-center my-8 gap-8">
+        <h2 className={clsx([inter.className, "text-2xl font-bold"])}>
+          YOUR MAILCHIMP CONTACTS
+        </h2>
+        <ul className="grid grid-cols-1 sm:grid-cols-3 content-centers gap-4">
+          {contacts.map((contact) => (
+            <li key={contact.id}>
+              <article
+                className="max-w-lg rounded-md flex flex-col border-2
+              border-slate-300 py-4 px-2 bg-slate-200"
+              >
+                <header>
+                  <h3 className="text-lg font-semibold">{contact.full_name}</h3>
+                </header>
+                <section>{contact.email_address}</section>
+              </article>
+            </li>
+          ))}
+        </ul>
       </section>
     </main>
   );
