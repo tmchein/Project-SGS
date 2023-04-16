@@ -64,7 +64,7 @@ export default async function handler(
 
   try {
     setTimeout(async () => {
-      // @ts-ignore
+      // @ts-expect-error
       const allContacts = await mailchimp.lists.getListMembersInfo(
         "aab7d9b7d0",
         {

@@ -1,13 +1,41 @@
+import ListOfContacts from "@/components/Contact/ListOfContacts";
 import DropZone from "@/components/Dropzone";
 import { useContact } from "@/context/contacts/contactsContext";
 import { clsx } from "clsx";
 import { Inter } from "next/font/google";
+import Image from "next/image";
+import Papa from "papaparse";
+import { useRef } from "react";
 import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const { contacts, setContacts } = useContact();
+  const { contacts } = useContact();
+  const anchorDownloadRef = useRef<HTMLAnchorElement>(null);
+
+  function downloadCSV() {
+    const exportedContacts = contacts.map(
+      ({ id, email_address, full_name, status }) => {
+        return {
+          ID: id,
+          EMAIL: email_address,
+          FIRSTNAME: full_name,
+          STATUS: status,
+        };
+      }
+    );
+
+    const unparsed = Papa.unparse(exportedContacts);
+
+    console.log(unparsed, "csv supossedly");
+    const blob = new Blob([unparsed], { type: "text/csv" });
+    const URL = window.URL || window.webkitURL;
+    const download = URL.createObjectURL(blob);
+    anchorDownloadRef.current!.href = download;
+    anchorDownloadRef.current?.click();
+    console.log(exportedContacts);
+  }
 
   return (
     <main>
@@ -19,10 +47,11 @@ export default function Home() {
         </h1>
         <div className="flex gap-4 items-center justify-center">
           <p>Welcome visitor</p>
-          <img
+          <Image
             src={`https://source.boringavatars.com/beam/120/Juan?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
             alt="Visitor image"
-            style={{ width: "24px", height: "24px" }}
+            width={24}
+            height={24}
             className="w-6 h-6"
           />
         </div>
@@ -31,26 +60,25 @@ export default function Home() {
       <section className="max-w-xl mx-auto mt-14">
         <DropZone />
       </section>
-      <section className="w-full flex flex-col items-center justify-center my-8 gap-8">
-        <h2 className={clsx([inter.className, "text-2xl font-bold"])}>
-          YOUR MAILCHIMP CONTACTS
-        </h2>
-        <ul className="grid grid-cols-1 sm:grid-cols-3 content-centers gap-4">
-          {contacts.map((contact) => (
-            <li key={contact.id}>
-              <article
-                className="max-w-lg rounded-md flex flex-col border-2
-              border-slate-300 py-4 px-2 bg-slate-200"
-              >
-                <header>
-                  <h3 className="text-lg font-semibold">{contact.full_name}</h3>
-                </header>
-                <section>{contact.email_address}</section>
-              </article>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {Boolean(contacts.length) && (
+        <section className="w-full flex flex-col items-center justify-center my-8 gap-8">
+          <div className="flex flex-col gap-4 justify-center items-center">
+            <h2 className={clsx([inter.className, "text-2xl font-bold"])}>
+              YOUR MAILCHIMP CONTACTS
+            </h2>
+            <button
+              onClick={downloadCSV}
+              className="bg-black text-white py-2 px-16 transition-colors duration-150 ease-in-out hover:bg-gray-800 rounded-lg"
+            >
+              Download your contacts
+            </button>
+            <a ref={anchorDownloadRef} href="" className="hidden">
+              Download file
+            </a>
+          </div>
+          <ListOfContacts contacts={contacts} />
+        </section>
+      )}
     </main>
   );
 }
