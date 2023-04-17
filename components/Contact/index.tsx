@@ -1,12 +1,11 @@
 interface Props {
-  id: string;
   full_name: string;
   email_address: string;
 }
 
-const Contact = ({ id, full_name, email_address }: Props) => {
+const Contact = ({ full_name, email_address }: Props) => {
   return (
-    <li key={id}>
+    <li>
       <article
         className="max-w-lg rounded-md flex flex-col border-2
               border-slate-300 py-4 px-2 bg-slate-200"

@@ -12,7 +12,6 @@ const ListOfContacts = ({ contacts }: Props) => {
         {contacts.map(({ id, full_name, email_address }) => (
           <Contact
             key={id}
-            id={id}
             full_name={full_name}
             email_address={email_address}
           />

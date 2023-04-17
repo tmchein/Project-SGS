@@ -73,7 +73,7 @@ export default async function handler(
       );
       const { members, total_items } = allContacts;
       return res.status(200).json({ members, total_items });
-    }, 500);
+    }, 1000);
   } catch (error) {
     return res
       .status(404)
