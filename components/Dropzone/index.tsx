@@ -23,7 +23,7 @@ export interface Contact {
 }
 
 const DropZone = () => {
-  const { contacts, setContacts } = useContact();
+  const { setContacts } = useContact();
   const fileSubmitInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,15 +53,22 @@ const DropZone = () => {
         body: JSON.stringify(parsed),
       });
 
-      if (res.ok) {
+      if (!res.ok) {
         // handle success
-        const data = await res.json();
-        setContacts(data.members);
-        toast.success("File was uploaded successfully");
-      } else {
-        // handling errors
         toast.error("There was an error uploading the file");
+        return;
       }
+
+      setTimeout(async () => {
+        const memberList = await fetch("/api/getListOfContacts", {
+          method: "POST",
+          body: "aab7d9b7d0",
+        });
+        const { members } = await memberList.json();
+        console.log(members, "TEST");
+        setContacts(members);
+      }, 1000);
+      toast.success("File was uploaded successfully");
     };
 
     reader.readAsText(file);

@@ -10,7 +10,7 @@ export default async function handler(
 
   mail.setUp();
 
-  const listID = req.body;
+  const listID: string = req.body;
 
   try {
     const { members, total_items } = await mail.getContactList(listID);

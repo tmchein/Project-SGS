@@ -14,10 +14,10 @@ export default async function handler(
 
   try {
     await mail.addContact(CSV);
-    return res.status(200);
   } catch (error) {
     return res
       .status(500)
       .json({ error: "There was an error creating contacts" });
   }
+  return res.send({ status: 200 });
 }
