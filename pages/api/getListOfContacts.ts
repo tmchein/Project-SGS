@@ -17,9 +17,9 @@ export default async function handler(
     return res.status(200).json({ members, total_items });
   } catch (error) {
     if (error instanceof Error) {
-      return res.status(404).json({ error: error.message });
+      return res.send({ status: 404, error: error.message });
     } else {
-      return res.status(404).json({ error: "Unexpected error" });
+      return res.send({ status: 404, error: "Unexpected error" });
     }
   }
 }
