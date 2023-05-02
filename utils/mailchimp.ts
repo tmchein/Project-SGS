@@ -1,7 +1,14 @@
 import { Contact } from "@/components/Dropzone";
 import mailchimp from "@mailchimp/mailchimp_marketing";
 
-export class Chimp {
+interface IChimp {
+  setUp: () => void;
+  addContact: (CSV: string) => Promise<void>;
+  getContactList: (
+    listId: string
+  ) => Promise<{ members: any; total_items: any }>;
+}
+export class Chimp implements IChimp {
   setUp(): void {
     mailchimp.setConfig({
       apiKey: process.env.MAILCHIMP_API_KEY,
