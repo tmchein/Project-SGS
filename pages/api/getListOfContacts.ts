@@ -10,14 +10,16 @@ export default async function handler(
 
   mail.setUp();
 
-  const CSV = req.body;
+  const listID = req.body;
 
   try {
-    await mail.addContact(CSV);
-    return res.status(200);
+    const { members, total_items } = await mail.getContactList(listID);
+    return res.status(200).json({ members, total_items });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ error: "There was an error creating contacts" });
+    if (error instanceof Error) {
+      return res.status(404).json({ error: error.message });
+    } else {
+      return res.status(404).json({ error: "Unexpected error" });
+    }
   }
 }
