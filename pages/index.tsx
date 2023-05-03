@@ -1,10 +1,10 @@
 import ListOfContacts from "@/components/Contact/ListOfContacts";
 import DropZone from "@/components/Dropzone";
 import { useContact } from "@/context/contacts/contactsContext";
+import { CSVDownloader } from "@/utils/CSVDownloader";
 import { clsx } from "clsx";
 import { Inter } from "next/font/google";
 import Image from "next/image";
-import Papa from "papaparse";
 import { useRef } from "react";
 import { Toaster } from "sonner";
 
@@ -15,26 +15,13 @@ export default function Home() {
   const anchorDownloadRef = useRef<HTMLAnchorElement>(null);
 
   function downloadCSV() {
-    const exportedContacts = contacts.map(
-      ({ id, email_address, full_name, status }) => {
-        return {
-          ID: id,
-          EMAIL: email_address,
-          FIRSTNAME: full_name,
-          STATUS: status,
-        };
-      }
-    );
+    const unparsed = CSVDownloader.stringToCsv(contacts);
 
-    const unparsed = Papa.unparse(exportedContacts);
-
-    console.log(unparsed, "csv supossedly");
     const blob = new Blob([unparsed], { type: "text/csv" });
     const URL = window.URL || window.webkitURL;
     const download = URL.createObjectURL(blob);
     anchorDownloadRef.current!.href = download;
     anchorDownloadRef.current?.click();
-    console.log(exportedContacts);
   }
 
   return (
