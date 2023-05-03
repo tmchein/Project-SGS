@@ -1,4 +1,5 @@
 import { Contact } from "@/components/Dropzone";
+import { Member } from "@/types/contact";
 import mailchimp from "@mailchimp/mailchimp_marketing";
 
 interface IChimp {
@@ -68,7 +69,7 @@ export class Chimp implements IChimp {
   //"aab7d9b7d0"
   async getContactList(
     listId: string
-  ): Promise<{ members: any; total_items: any }> {
+  ): Promise<{ members: Member[]; total_items: any }> {
     try {
       // @ts-expect-error
       const allContacts = await mailchimp.lists.getListMembersInfo(listId, {

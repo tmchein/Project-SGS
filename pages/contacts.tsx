@@ -1,17 +1,14 @@
 import ListOfContacts from "@/components/Contact/ListOfContacts";
-import DropZone from "@/components/Dropzone";
 import Layout from "@/containers/Layout";
-import { useContact } from "@/context/contacts/contactsContext";
+import { Member } from "@/types/contact";
 import { CSVDownloader } from "@/utils/CSVDownloader";
-import { clsx } from "clsx";
+import clsx from "clsx";
 import { Inter } from "next/font/google";
 import { useRef } from "react";
-import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
-  const { contacts } = useContact();
+const Contacts = ({ contacts }: { contacts: Member[] }) => {
   const anchorDownloadRef = useRef<HTMLAnchorElement>(null);
 
   function downloadCSV() {
@@ -26,10 +23,6 @@ export default function Home() {
 
   return (
     <Layout>
-      <Toaster />
-      <section className="max-w-xl mx-auto mt-14">
-        <DropZone />
-      </section>
       {Boolean(contacts.length) && (
         <section className="w-full flex flex-col items-center justify-center my-8 gap-8">
           <div className="flex flex-col gap-4 justify-center items-center">
@@ -51,4 +44,21 @@ export default function Home() {
       )}
     </Layout>
   );
+};
+
+export async function getServerSideProps() {
+  // Fetch data from external API
+  const memberList = await fetch(
+    "http://localhost:3000/api/getListOfContacts",
+    {
+      method: "POST",
+      body: "aab7d9b7d0",
+    }
+  );
+  const { members }: { members: Member[] } = await memberList.json();
+  const contacts = members;
+  // Pass data to the page via props
+  return { props: { contacts } };
 }
+
+export default Contacts;

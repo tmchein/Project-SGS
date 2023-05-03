@@ -64,7 +64,6 @@ const DropZone = () => {
           body: "aab7d9b7d0",
         });
         const { members } = await memberList.json();
-        console.log(members, "TEST");
         setContacts(members);
       }, 1000);
       toast.success("File was uploaded successfully");
