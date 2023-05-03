@@ -47,7 +47,6 @@ const DropZone = () => {
           error: reject,
         });
       });
-      console.log(parsed);
       const res = await fetch("/api/upload", {
         method: "POST",
         body: JSON.stringify(parsed),
@@ -93,13 +92,17 @@ const DropZone = () => {
       >
         Upload
       </button>
-      <input
-        ref={fileSubmitInputRef}
-        className="hidden"
-        type="file"
-        accept="text/csv"
-        onChange={handleUpload}
-      />
+      <div className="hidden">
+        <label htmlFor="hiddenFileInput">File uploader</label>
+        <input
+          ref={fileSubmitInputRef}
+          type="file"
+          id="hiddenFileInput"
+          accept="text/csv"
+          name="FileUploadInput"
+          onChange={handleUpload}
+        />
+      </div>
     </form>
   );
 };

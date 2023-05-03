@@ -1,6 +1,6 @@
 import { ContactsFixture } from "@/__fixtures__/ListOfContacts";
 import "@testing-library/jest-dom/extend-expect";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import ListOfContacts from "../ListOfContacts";
 
 describe("ListOfContacts component", () => {
@@ -8,6 +8,8 @@ describe("ListOfContacts component", () => {
     const component = render(<ListOfContacts contacts={[]} />);
     const list = component.getAllByRole("list");
     expect(list).toHaveLength(1);
+    const nullListItem = screen.queryByText(/charlbo@socialgoodsoftware.com/i);
+    expect(nullListItem).not.toBeInTheDocument();
   });
 
   it("Should render the correct number of contacts", () => {
