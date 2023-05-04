@@ -1,0 +1,20 @@
+export const contactUploadDummy = [
+  {
+    "First name": "dummy",
+    "Last/Organization/Group/Household name": "test",
+    "System record ID": "422a82d1-0506-4c73-9611-bfaf570dcf7b",
+    "Date changed": "2/6/2021 3:57:15.663 PM",
+    "Email Addresses\\Email address": "dmtest6@socialgoodsoftware.com",
+    "Email Addresses\\Date changed": "2/6/2021 3:57:15.247 PM",
+    "Todays Visitors Attribute\\Value": "Yes",
+    "Todays Visitors Attribute\\Date changed": "",
+    "Addresses\\Address line 1": "088 Wilber Way",
+    "Addresses\\Address line 2": "Apt. 887",
+    "Addresses\\City": "South Ronny",
+    "Addresses\\ZIP": "",
+    "Addresses\\State abbreviation": "NJ",
+    "Addresses\\Country abbreviation": "USA",
+    "Phones\\Number": "(565) 771-1193",
+    "Phones\\Date changed": "2/6/2021 3:57:16.113 PM",
+  },
+];

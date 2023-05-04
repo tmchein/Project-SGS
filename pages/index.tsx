@@ -10,13 +10,13 @@ import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+export default function Home({ userName }: { userName: string }) {
   const { contacts } = useContact();
   const anchorDownloadRef = useRef<HTMLAnchorElement>(null);
 
   function downloadCSV() {
     const unparsed = CSVDownloader.stringToCsv(contacts);
-
+    console.log(unparsed);
     const blob = new Blob([unparsed], { type: "text/csv" });
     const URL = window.URL || window.webkitURL;
     const download = URL.createObjectURL(blob);
